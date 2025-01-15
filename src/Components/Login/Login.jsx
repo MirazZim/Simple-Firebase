@@ -1,4 +1,4 @@
-import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import { GithubAuthProvider, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import auth from "../Firebase/firebase.init";
 import { useState } from "react";
 
@@ -7,10 +7,12 @@ import { useState } from "react";
 const Login = () => {
     const [user , setUser] = useState(null); 
 
-    const provider = new GoogleAuthProvider
+    const GoogleProvider = new GoogleAuthProvider
+
+    const GithubProvider = new GithubAuthProvider
 
     const handleGoogleSignIn = () => {
-        signInWithPopup(auth, provider)
+        signInWithPopup(auth, GoogleProvider)
             .then((result) => {
                 console.log(result.user)
                 setUser(result.user)
@@ -19,6 +21,19 @@ const Login = () => {
                 console.log('ERROR', error)
                 setUser(null)
             })
+    }
+
+    const handleGitHubSignIn = () => {
+        signInWithPopup(auth, GithubProvider)
+            .then((result) => {
+                console.log(result.user)
+                setUser(result.user)
+            })
+            .catch(error => {
+                console.log('ERROR', error)
+                setUser(null)
+            })
+
     }
 
     const handleGoogleSignOut = () => {
@@ -37,12 +52,21 @@ const Login = () => {
             <br />
             <button onClick={handleGoogleSignOut}>Log Out</button> */}
 
-            
+
 
             {/* jodi User thake toh Log out out dekhao ar jodi user na thake tahole sign in dekhao */}
 
             {
-                user ? <button onClick={handleGoogleSignOut}>Log Out</button> : <button onClick={handleGoogleSignIn}>Loging with google</button>
+                user ? <button onClick={handleGoogleSignOut}>Log Out</button> : 
+                <>
+                <button onClick={handleGoogleSignIn}>LogIn with google </button>
+                <br />
+                <br />
+                <button onClick={handleGitHubSignIn}>LogIn with GitHub </button>
+
+                
+                </>
+                
             }
 
 
